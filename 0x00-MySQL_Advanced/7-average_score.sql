@@ -1,4 +1,6 @@
--- SQL script that creates a stored procedure ComputeAverageScoreForUser
+-- SQL script that creates a stored procedure ComputeAverageScoreForUser (7-average_score.sql)
+DELIMITER //
+
 CREATE PROCEDURE ComputeAverageScoreForUser(
     IN user_id INT
 )
@@ -13,6 +15,6 @@ BEGIN
     SET `average_score` = `average`
     WHERE `users`.`id` = `user_id`;
 
-END//
+END //
 
 DELIMITER ;
