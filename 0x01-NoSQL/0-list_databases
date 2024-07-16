@@ -1,2 +1,6 @@
 // script that lists all databases in MongoDB.
+<<<<<<< HEAD
 show dbs
+=======
+show dbs
+>>>>>>> c41c278303cab907ae29b8eeba483683e0b8a080
