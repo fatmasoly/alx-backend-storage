@@ -38,6 +38,27 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
+def replay(fn: Callable) -> None:
+    """Replay the history of calls of a function."""
+    redis_obj = getattr(fn.__self__, '_redis', None)
+    if not isinstance(redis_obj, redis.Redis):
+        return
+
+    method_name = fn.__qualname__
+    inputs_name = method_name + ':inputs'
+    outputs_name = method_name + ':outputs'
+
+    inputs_list = redis_obj.lrange(inputs_name, 0, -1)
+    outputs_list = redis_obj.lrange(outputs_name, 0, -1)
+
+    counts = redis_obj.get(method_name).decode('utf-8')
+
+    print(f"{method_name} was called {counts} times:")
+
+    for input, output in zip(inputs_list, outputs_list):
+        print(f"{method_name}(*{input.decode('utf-8')}) -> {output}")
+
+
 class Cache:
     def __init__(self) -> None:
         """Initialize the cache."""
