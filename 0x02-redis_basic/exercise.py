@@ -34,7 +34,6 @@ class Cache:
         self._redis.set(key, data)
         return key
 
-    @count_calls
     def get(self, key: str, fn: Union[Callable, None] = None) -> str:
         """Get the data from the cache using the key."""
         value = self._redis.get(key)
@@ -44,12 +43,10 @@ class Cache:
 
         return value
 
-    @count_calls
     def get_str(self, key: str) -> str:
         """Get the data from the cache using the key."""
         return self.get(key, lambda d: d.decode("utf-8"))
 
-    @count_calls
     def get_int(self, key: str) -> int:
         """Get the data from the cache using the key."""
         return self.get(key, int)
