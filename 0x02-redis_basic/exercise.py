@@ -18,12 +18,14 @@ class Cache:
         self._redis.set(key, data)
         return key
 
-    def get(self, key: str, type: Callable) -> Union[str, bytes, int, float]:
+    def get(self, key: str, fn: Union[Callable, None] = None) -> str:
         """Get the data from the cache using the key."""
-        data = self._redis.get(key)
-        if data is None:
-            raise ValueError("Key not found")
-        return type(data)
+        value = self._redis.get(key)
+
+        if fn:
+            return fn(value)
+
+        return value
 
     def get_str(self, key: str) -> str:
         """Get the data from the cache using the key."""
