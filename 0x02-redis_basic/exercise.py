@@ -7,16 +7,16 @@ from typing import Union, Callable
 from functools import wraps
 
 
-def count_calls(func: Callable) -> Callable:
+def count_calls(method: Callable) -> Callable:
     """Count the number of calls to a function."""
 
-    @wraps(func)
+    @wraps(method)
     def wrapper(self, *args, **kwargs):
         """Wrapper function."""
         if isinstance(self._redis, redis.Redis):
-            self._redis.incr(func.__qualname__)
+            self._redis.incr(method.__qualname__)
 
-        return func(self, *args, **kwargs)
+        return method(self, *args, **kwargs)
 
     return wrapper
 
