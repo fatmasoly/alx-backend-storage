@@ -10,13 +10,13 @@ from functools import wraps
 def count_calls(func: Callable) -> Callable:
     """Count the number of calls to a function."""
 
-    @wraps(method)
+    @wraps(func)
     def wrapper(self, *args, **kwargs):
         """Wrapper function."""
         if isinstance(self._redis, redis.Redis):
-            self._redis.incr(method.__qualname__)
+            self._redis.incr(func.__qualname__)
 
-        return method(self, *args, **kwargs)
+        return func(self, *args, **kwargs)
 
     return wrapper
 
